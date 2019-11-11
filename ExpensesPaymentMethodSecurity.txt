@@ -1,0 +1,36 @@
+/* BOR Mod, CTASK0024021, Ashley Gilliam, 07/31/2019 - Disable access to Payment Method drop down box.  */
+/* Begin-BOR Mod, CTASK0024021, Ashley Gilliam, 07/31/2019*/
+
+Local Grid &GRID;
+Local string &OprClass;
+
+SQLExec("select sp.oprclass from ps_sp_bu_gl_clsvw sp, psoprdefn o where sp.oprclass = o.oprclass and o.oprid = :1", %OperatorId, &OprClass);
+
+If %PrimaryPermissionList <> "EX_MAINT_EMP_DATA_MAINT" Then
+   GetRecord(Record.EX_EE_ORG_WRK).GetField(Field.PYMNT_METHOD_EX1).Enabled = False;
+End-If;
+
+&GRID = GetGrid(Page.EX_EE_PYMNT_DTL, "EX_EE_PYMNT_DTL");
+
+If &OprClass <> "BOR_SHARE" Then
+   &GRID.GetColumn("DFLT_ACCT_FLG").Enabled = False;
+   &GRID.GetColumn("PB_BANK_ACCOUNT").Enabled = False;
+   &GRID.GetColumn("ACCT_SOURCE").Enabled = False;
+   &GRID.GetColumn("XLATSHORTNAME").Enabled = False;
+   &GRID.GetColumn("BENEFICIARY_BANK").Enabled = False;
+   &GRID.GetColumn("BNK_ID_NBR").Enabled = False;
+   &GRID.GetColumn("IBAN_ID").Enabled = False;
+   &GRID.GetColumn("BENEF_BRANCH").Enabled = False;
+   &GRID.GetColumn("BRANCH_ID").Enabled = False;
+   &GRID.GetColumn("BANK_ACCOUNT_NUM").Enabled = False;
+   &GRID.GetColumn("BANK_SETID").Enabled = False;
+   &GRID.GetColumn("BANK_CD").Enabled = False;
+   &GRID.GetColumn("BANK_CD_CPTY").Enabled = False;
+   &GRID.GetColumn("BANK_ACCT_KEY").Enabled = False;
+   &GRID.GetColumn("PRENOTE_STATUS").Enabled = False;
+   &GRID.GetColumn("PRENOTE_REQD").Enabled = False;
+   &GRID.GetColumn("PRENOTE_DATE").Enabled = False;
+   &GRID.GetColumn("PRENOTE_WAIT_DAYS").Enabled = False;
+End-If;
+
+/* End-BOR Mod, CTASK0024021, Ashley Gilliam, 07/31/2019*/
